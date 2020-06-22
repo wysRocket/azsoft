@@ -4,9 +4,10 @@ import { CacheContext } from "./../context/cacheContext";
 
 export const CacheForm = () => {
   const { set, formValues } = useContext(CacheContext);
-  const { register, handleSubmit, reset } = useForm();
-  const onSubmit = (data) => {
+  const { register, handleSubmit } = useForm();
+  const onSubmit = (data, e) => {
     set(data);
+    e.target.reset();
   };
   console.log(formValues);
   return (

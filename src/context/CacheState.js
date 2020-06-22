@@ -17,14 +17,17 @@ export const CacheState = ({ children }) => {
   const [state, dispatch] = useReducer(cacheReducer, initialState);
 
   const set = (data) => {
+    const payload = { ...data, touchedAt: Date.now() };
     dispatch({
       type: SET_RAW,
-      payload: data,
+      payload,
     });
   };
 
-  const get = (key, value) =>
-    dispatch({ type: GET_RAW, payload: { key, value } });
+  const get = (key, value) => {
+    const payload = { key, value, touchedAt: Date.now() };
+    dispatch({ type: GET_RAW, payload });
+  };
 
   return (
     <CacheContext.Provider
