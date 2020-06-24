@@ -11,7 +11,8 @@ export const CacheForm = () => {
     e.target.reset();
     resetInputs();
   };
-  console.log(formValues);
+  console.log("formValues:", formValues);
+  console.log("form errors:", errors);
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <label>Key :</label>
