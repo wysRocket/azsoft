@@ -1,23 +1,30 @@
-export const SET_RAW = "SET_RAW";
+export const ADD_RAW = "ADD_RAW";
 export const GET_RAW = "GET_RAW";
+export const UPD_RAW = "UPD_RAW";
 
 const handlers = {
-  [SET_RAW]: (state, { payload }) => ({
+  [ADD_RAW]: (state, { payload }) => ({
     ...state,
-    cache: state.cache.find((p) => p.key === payload.key)
-      ? [
-          ...state.cache.map((u) => {
-            if (u.key === payload.key) {
-              return { ...u, value: payload.value };
-            }
-            return u;
-          }),
-        ]
-      : [...state.cache, payload],
+    cache: [...state.cache, payload],
+  }),
+  [UPD_RAW]: (state, { payload }) => ({
+    ...state,
+    cache: state.cache.filter((i) => i.key !== payload.keyForDEL),
+    ...state,
+    cache: [...state.cache, payload],
   }),
   [GET_RAW]: (state, { payload }) => ({
     ...state,
     formValues: payload,
+    ...state.cache.map((u) => {
+      if (u.key === payload.key) {
+        return {
+          ...u,
+          touchedAt: payload.touchedAt,
+        };
+      }
+      return u;
+    }),
   }),
   DEFAULT: (state) => state,
 };
