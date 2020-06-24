@@ -2,6 +2,7 @@ export const ADD_RAW = "ADD_RAW";
 export const GET_RAW = "GET_RAW";
 export const UPD_EXISTING_RAW = "UPD_EXISTING_RAW";
 export const UPD_OLDEST_RAW = "UPD_OLDEST_RAW";
+export const RESET_INPUTS = "RESET_INPUTS";
 
 const handlers = {
   [ADD_RAW]: (state, { payload }) => ({
@@ -28,15 +29,15 @@ const handlers = {
   [GET_RAW]: (state, { payload }) => ({
     ...state,
     formValues: payload,
-    ...state.cache.map((u) => {
-      if (u.key === payload.key) {
-        return {
-          ...u,
-          touchedAt: payload.touchedAt,
-        };
-      }
-      return u;
-    }),
+    cache: [...state.cache.filter((i) => i.key !== payload.key), payload],
+  }),
+  [RESET_INPUTS]: (state) => ({
+    ...state,
+    formValues: {
+      ...state.formValues,
+      key: "",
+      value: "",
+    },
   }),
   DEFAULT: (state) => state,
 };

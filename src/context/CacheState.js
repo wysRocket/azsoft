@@ -6,6 +6,7 @@ import {
   GET_RAW,
   UPD_EXISTING_RAW,
   UPD_OLDEST_RAW,
+  RESET_INPUTS,
 } from "./cacheReducer";
 
 export const CacheState = ({ children }) => {
@@ -40,12 +41,16 @@ export const CacheState = ({ children }) => {
     const payload = { key, value, touchedAt: Date.now() };
     dispatch({ type: GET_RAW, payload });
   };
+  const resetInputs = () => {
+    dispatch({ type: RESET_INPUTS });
+  };
 
   return (
     <CacheContext.Provider
       value={{
         set,
         get,
+        resetInputs,
         cache: state.cache,
         formValues: state.formValues,
       }}

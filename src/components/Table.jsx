@@ -26,7 +26,7 @@ export const CacheTable = () => {
 
 const Raw = ({ keyName, keyValue, get }) => {
   const onDoubleClick = () => {
-    console.log("doubleclick on raw #", keyName);
+    console.log("doubleclick on #", keyName);
     get(keyName, keyValue);
   };
   return (
