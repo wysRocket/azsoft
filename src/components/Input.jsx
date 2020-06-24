@@ -27,7 +27,7 @@ export const CacheForm = () => {
         ref={register({ required: true })}
         defaultValue={formValues.value}
       />
-      <input type="submit" />
+      {errors.key || errors.value ? null : <input type="submit" />}
     </form>
   );
 };
