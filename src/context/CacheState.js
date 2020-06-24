@@ -1,14 +1,16 @@
 import React, { useReducer } from "react";
 import { CacheContext } from "./cacheContext";
 import { cacheReducer } from "./cacheReducer";
-import { ADD_RAW, GET_RAW, UPD_RAW } from "./cacheReducer";
+import {
+  ADD_RAW,
+  GET_RAW,
+  UPD_EXISTING_RAW,
+  UPD_OLDEST_RAW,
+} from "./cacheReducer";
 
 export const CacheState = ({ children }) => {
   const initialState = {
-    cache: [
-      { key: "1", value: "Mark", touchedAt: 1592908561560 },
-      { key: "2", value: "Teddy", touchedAt: 1592908561561 },
-    ],
+    cache: [{ key: "1", value: "Mark", touchedAt: 1592908561560 }],
     formValues: {
       key: "",
       value: "",
@@ -17,32 +19,20 @@ export const CacheState = ({ children }) => {
   const [state, dispatch] = useReducer(cacheReducer, initialState);
 
   const set = (data) => {
-    let oldestItemKey = state.cache.reduce((max, x) => {
-      return x.touchedAt < max.touchedAt ? x : max;
-    }).key;
-
-    let duplicateItemKey = state.cache.find((p) => p.key === data.key).key;
-
-    console.log("Oldest Key #:", oldestItemKey);
-    console.log("Duplicate Key #:", duplicateItemKey);
-
+    const payload = { ...data, touchedAt: Date.now() };
     state.cache.find((p) => p.key === data.key)
       ? dispatch({
-          type: UPD_RAW,
-          payload: {
-            ...data,
-            touchedAt: Date.now(),
-            keyForDEL: duplicateItemKey,
-          },
+          type: UPD_EXISTING_RAW,
+          payload,
         })
       : state.cache.length === 2
       ? dispatch({
-          type: UPD_RAW,
-          payload: { ...data, touchedAt: Date.now(), keyForDEL: oldestItemKey },
+          type: UPD_OLDEST_RAW,
+          payload,
         })
       : dispatch({
           type: ADD_RAW,
-          payload: { ...data, touchedAt: Date.now() },
+          payload,
         });
   };
 

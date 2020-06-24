@@ -1,17 +1,29 @@
 export const ADD_RAW = "ADD_RAW";
 export const GET_RAW = "GET_RAW";
-export const UPD_RAW = "UPD_RAW";
+export const UPD_EXISTING_RAW = "UPD_EXISTING_RAW";
+export const UPD_OLDEST_RAW = "UPD_OLDEST_RAW";
 
 const handlers = {
   [ADD_RAW]: (state, { payload }) => ({
     ...state,
     cache: [...state.cache, payload],
   }),
-  [UPD_RAW]: (state, { payload }) => ({
+  [UPD_EXISTING_RAW]: (state, { payload }) => ({
     ...state,
-    cache: state.cache.filter((i) => i.key !== payload.keyForDEL),
+    cache: [...state.cache.filter((i) => i.key !== payload.key), payload],
+  }),
+  [UPD_OLDEST_RAW]: (state, { payload }) => ({
     ...state,
-    cache: [...state.cache, payload],
+    cache: [
+      ...state.cache.filter(
+        (i) =>
+          i.key !==
+          state.cache.reduce((max, x) => {
+            return x.touchedAt < max.touchedAt ? x : max;
+          }).key
+      ),
+      payload,
+    ],
   }),
   [GET_RAW]: (state, { payload }) => ({
     ...state,
