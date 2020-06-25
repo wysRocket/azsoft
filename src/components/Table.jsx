@@ -4,7 +4,7 @@ import { CacheContext } from "./../context/cacheContext";
 
 export const CacheTable = () => {
   const { cache, get } = useContext(CacheContext);
-  console.log(cache);
+  //  console.log(cache);
   return (
     <Table striped bordered hover variant="dark" className="mt-3">
       <thead>
@@ -26,7 +26,7 @@ export const CacheTable = () => {
 
 const Raw = ({ keyName, keyValue, get }) => {
   const onDoubleClick = () => {
-    console.log("doubleclick on #", keyName);
+    //    console.log("doubleclick on #", keyName);
     get(keyName, keyValue);
   };
   return (
