@@ -26,7 +26,7 @@ export const CacheForm = () => {
           <input
             type="key"
             className="form-control"
-            defaultValue={formValues.key}
+            value={keyInput}
             onChange={(e) => setKeyInput(e.target.value)}
           />
         </div>
@@ -34,7 +34,7 @@ export const CacheForm = () => {
           <input
             type="value"
             className="form-control"
-            defaultValue={formValues.value}
+            value={valueInput}
             onChange={(e) => setValueInput(e.target.value)}
           />
         </div>
